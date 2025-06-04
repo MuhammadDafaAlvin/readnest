@@ -1,7 +1,7 @@
 <x-app-layout>
-  <div class="max-w-4xl mx-auto px-4 py-6 !font-serif">
+  <div class="max-w-4xl mx-auto px-4 py-6">
 
-    <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-800 leading-tight mb-2 tracking-tight">
+    <h1 class="text-4xl font-semibold text-gray-900 dark:text-gray-800 leading-tight mb-2 tracking-tight !font-serif">
       {{ $article->title }}</h1>
 
     <div class="flex items-center text-sm text-gray-500 dark:text-gray-600 mb-6 flex-wrap gap-2">
@@ -21,7 +21,7 @@
       </div>
     @endif
 
-    <div class="prose dark:prose-invert max-w-none mb-10 text-lg leading-relaxed tracking-wide">
+    <div class="prose dark:prose-invert max-w-none mb-10 text-lg leading-relaxed !font-toto">
       {!! nl2br(e($article->content)) !!}
     </div>
 
@@ -39,9 +39,9 @@
       @if ($article->comments->isEmpty())
         <p class="text-gray-600 dark:text-gray-400">Belum ada komentar.</p>
       @else
-        <ul class="space-y-6">
+        <ul class="space-y-2">
           @foreach ($article->comments as $comment)
-            <li class="flex gap-4 items-start bg-gray-50 p-4 rounded-xl shadow-sm">
+            <li class="flex gap-4 items-start p-2 rounded-xl border-b border-gray-300">
               <img
                 src="https://ui-avatars.com/api/?name={{ urlencode($comment->user->name) }}&size=64&background={{ consistentColorHex($comment->user->name) }}&color=ffffff"
                 alt="{{ $comment->user->name }}" class="w-10 h-10 rounded-full shadow" />
@@ -60,18 +60,17 @@
 
     @auth
       <section class="mt-12">
-        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Tinggalkan Komentar</h3>
         <form method="POST" action="{{ route('comments.store') }}" class="space-y-4">
           @csrf
           <input type="hidden" name="article_id" value="{{ $article->id }}">
 
           <div>
-            <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-600 mb-2">
               Komentar Anda
             </label>
             <textarea id="content" name="content" rows="4"
-              class="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500"
-              required></textarea>
+              class="w-full rounded-lg border border-gray-300 dark:border-gray-300 dark:bg-white shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500"
+              required placeholder="Tulis komentar kamu ..."></textarea>
             @error('content')
               <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
             @enderror

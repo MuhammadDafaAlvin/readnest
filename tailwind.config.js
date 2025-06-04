@@ -20,6 +20,7 @@ export default {
                     "Arial",
                     "sans-serif",
                 ],
+                toto: ["Noto Serif Toto", "serif"],
             },
         },
     },

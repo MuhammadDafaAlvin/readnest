@@ -1,9 +1,9 @@
 <x-app-layout>
   <div class="container mx-auto px-4 py-12">
-    <div class="max-w-6xl mb-10 mx-auto !font-serif tracking-tighter">
+    <div class="max-w-6xl mb-10 mx-auto tracking-tighter">
       @guest
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">Selamat Datang di Readnest</h1>
-        <p class="tracking-normal text-lg text-gray-800 dark:text-gray-600 mb-6">
+        <h1 class="max-w-4xl text-5xl font-bold text-gray-900 mb-4">Selamat Datang di Readnest</h1>
+        <p class="max-w-4xl tracking-normal text-xl text-gray-800 dark:text-gray-600 mb-6">
           Temukan berbagai artikel menarik yang telah ditulis oleh komunitas — mulai dari tips bermanfaat, opini,
           hingga wawasan terkini seputar berbagai topik.
           Jelajahi, baca, dan perluas pengetahuan Anda setiap harinya.
@@ -23,7 +23,7 @@
     @if ($articles->isEmpty())
       <p class="text-gray-600 dark:text-gray-400 text-center">Belum ada artikel tersedia.</p>
     @else
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto !font-serif">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         @foreach ($articles as $article)
           <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden flex flex-col">
             <div class="p-4 flex flex-col flex-1 justify-between">
@@ -41,7 +41,7 @@
                 </h3>
 
 
-                <p class="text-gray-700 dark:text-gray-500 tracking-wide text-sm font-medium">
+                <p class="text-gray-700 dark:text-gray-500 tracking-wide text-sm">
                   {{ \Illuminate\Support\Str::limit($article->content, 120) }}
                 </p>
               </div>

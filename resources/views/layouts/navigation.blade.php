@@ -17,20 +17,26 @@
             </x-nav-link>
           @endguest
           @auth
-            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-nav-link :href="route('welcome')" :active="request()->routeIs('welcome')">
               {{ __('Beranda') }}
             </x-nav-link>
             @if (auth()->user()->role->name === 'admin')
+              <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+                {{ __('Admin') }}
+              </x-nav-link>
               <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
                 {{ __('Kategori') }}
               </x-nav-link>
               <x-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.index')">
                 {{ __('Artikel') }}
               </x-nav-link>
+              <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                {{ __('Pengguna') }}
+              </x-nav-link>
             @endif
             @if (auth()->user()->role->name === 'writer')
-              <x-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.index')">
-                {{ __('Artikel') }}
+              <x-nav-link :href="route('author.index')" :active="request()->routeIs('author.index')">
+                {{ __('Artikel Saya') }}
               </x-nav-link>
             @endif
           @endauth
@@ -89,16 +95,22 @@
           {{ __('Beranda') }}
         </x-responsive-nav-link>
         @if (auth()->user()->role->name === 'admin')
+          <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+            {{ __('Admin') }}
+          </x-responsive-nav-link>
           <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
             {{ __('Kategori') }}
           </x-responsive-nav-link>
           <x-responsive-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.index')">
             {{ __('Artikel') }}
           </x-responsive-nav-link>
+          <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+            {{ __('Pengguna') }}
+          </x-responsive-nav-link>
         @endif
         @if (auth()->user()->role->name === 'writer')
-          <x-responsive-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.index')">
-            {{ __('Artikel') }}
+          <x-responsive-nav-link :href="route('author.index')" :active="request()->routeIs('author.index')">
+            {{ __('Penulis') }}
           </x-responsive-nav-link>
         @endif
       </div>

@@ -6,13 +6,15 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthorController;
 
 Route::get('/', function () {
     $articles = Article::with(['category', 'author.user'])->paginate(9);
     return view('welcome', compact('articles'));
 })->name('welcome');
 
-Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -22,13 +24,26 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
-        $articles = Article::with(['author', 'category'])->get();
+        $articles = Article::with(['author', 'category'])->simplePaginate(9);
         return view('dashboard', compact('articles'));
     })->name('dashboard');
 
-    Route::resource('articles', ArticleController::class)->except(['show'])->middleware('role:admin,writer');
-    Route::resource('categories', CategoryController::class)->middleware('role:admin');
-    Route::resource('comments', CommentController::class)->middleware('role:admin');
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+        Route::resource('categories', CategoryController::class);
+        Route::resource('articles', ArticleController::class);
+        Route::resource('users', UserController::class);
+        Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    });
+
+    Route::middleware('role:writer')->group(function () {
+        Route::get('/author', [AuthorController::class, 'index'])->name('author.index');
+        Route::resource('articles', ArticleController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    });
+
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 });
+
+Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
 
 require __DIR__ . '/auth.php';
