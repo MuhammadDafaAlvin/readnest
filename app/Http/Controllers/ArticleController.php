@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -32,10 +33,13 @@ class ArticleController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $imagePath = $request->file('image') ? $request->file('image')->store('images', 'public') : null;
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
 
         $article = Article::create([
             'title' => $request->title,
@@ -72,10 +76,16 @@ class ArticleController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $imagePath = $request->file('image') ? $request->file('image')->store('images', 'public') : $article->image;
+        $imagePath = $article->image;
+        if ($request->hasFile('image')) {
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath);
+            }
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
 
         $article->update([
             'title' => $request->title,
@@ -92,6 +102,9 @@ class ArticleController extends Controller
     public function destroy(Article $article)
     {
         $this->authorizeArticle($article);
+        if ($article->image) {
+            Storage::disk('public')->delete($article->image);
+        }
         $article->delete();
         return request()->expectsJson()
             ? response()->json(['message' => 'Artikel dihapus'])

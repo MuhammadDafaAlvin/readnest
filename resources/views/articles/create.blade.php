@@ -9,6 +9,11 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900 dark:text-gray-100">
+          @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+              {{ session('success') }}
+            </div>
+          @endif
           <form method="POST" action="{{ route('articles.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="mb-4">
@@ -44,13 +49,14 @@
               @enderror
             </div>
             <div class="mb-4">
-              <label for="image" class="block text-sm font-medium">Gambar</label>
-              <input type="file" name="image" id="image" class="mt-1 block w-full">
+              <label for="image" class="block text-sm font-medium">Gambar (maks 2MB, format: jpg, png, gif)</label>
+              <input type="file" name="image" id="image"
+                class="mt-1 block w-full text-gray-500 dark:text-gray-400" accept="image/jpeg,image/png,image/gif">
               @error('image')
                 <span class="text-red-600 dark:text-red-400 text-sm">{{ $message }}</span>
               @enderror
             </div>
-            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md">Simpan</button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Simpan</button>
           </form>
         </div>
       </div>

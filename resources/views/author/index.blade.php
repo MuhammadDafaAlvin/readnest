@@ -15,7 +15,8 @@
         @foreach ($articles as $article)
           <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden flex flex-col">
             @if ($article->image)
-              <img class="w-full h-48 object-cover" src="{{ asset($article->image) }}" alt="{{ $article->title }}">
+              <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $article->image) }}"
+                alt="{{ $article->title }}">
             @else
               <div class="w-full h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                 <span class="text-gray-500 dark:text-gray-400">No Image</span>

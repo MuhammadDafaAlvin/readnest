@@ -1,5 +1,5 @@
 <x-app-layout>
-  <div class="container mx-auto px-4 py-12">
+  <div class="container mx-auto px-4 py-4">
     <div class="max-w-6xl mb-10 mx-auto tracking-tighter">
       @guest
         <h1 class="max-w-4xl text-5xl font-bold text-gray-900 mb-4">Selamat Datang di Readnest</h1>
@@ -61,10 +61,10 @@
                 </a>
               </div>
               @if ($article->image)
-                <img class="w-full h-48 object-cover mt-4 rounded-lg" src="{{ asset($article->image) }}"
-                  alt="{{ $article->title }}">
+                <img class="w-full h-48 object-cover mt-4 rounded-lg" src="{{ asset('storage/' . $article->image) }}"
+                  alt="{{ $article->title }}" />
               @else
-                <div class="w-full h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                <div class="w-full h-48 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
                   <span class="text-gray-500 dark:text-gray-400">No Image</span>
                 </div>
               @endif

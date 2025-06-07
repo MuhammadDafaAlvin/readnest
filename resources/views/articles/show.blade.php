@@ -13,11 +13,11 @@
     </div>
 
     @if ($article->image)
-      <img src="{{ asset($article->image) }}" alt="{{ $article->title }}"
-        class="w-full h-72 sm:h-96 object-cover rounded-xl shadow mb-8" />
+      <img class="w-full h-64 object-cover rounded-lg mb-6" src="{{ asset('storage/' . $article->image) }}"
+        alt="{{ $article->title }}" />
     @else
-      <div class="w-full h-72 bg-gray-200 dark:bg-gray-700 flex items-center justify-center rounded-xl mb-8">
-        <span class="text-gray-500 dark:text-gray-400">No Image</span>
+      <div class="w-full h-64 bg-gray-200 dark:bg-gray-700 flex items-center justify-center rounded-lg mb-6">
+        <span class="text-gray-500 dark:text-white-400">No Image</span>
       </div>
     @endif
 
