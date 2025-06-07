@@ -11,7 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthorController;
 
 Route::get('/', function () {
-    $articles = Article::with(['category', 'author.user'])->paginate(9);
+    $articles = Article::with(['category', 'author.user'])->latest()->paginate(9);
     return view('welcome', compact('articles'));
 })->name('welcome');
 
@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
-        $articles = Article::with(['author', 'category'])->simplePaginate(9);
+        $articles = Article::with(['author', 'category'])->latest()->simplePaginate(9);
         return view('dashboard', compact('articles'));
     })->name('dashboard');
 

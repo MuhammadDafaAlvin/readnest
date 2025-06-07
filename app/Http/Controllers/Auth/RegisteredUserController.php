@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Author;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Auth\Events\Registered;
 
 class RegisteredUserController extends Controller
 {
@@ -34,7 +36,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role_id' => ['required', 'exists:roles,id'],
+            'role_id' => ['required', 'exists:roles,id', 'in:' . implode(',', Role::whereIn('name', ['writer', 'reader'])->pluck('id')->toArray())],
         ]);
 
         $user = User::create([
@@ -45,7 +47,7 @@ class RegisteredUserController extends Controller
         ]);
 
         if ($user->role->name === 'writer') {
-            \App\Models\Author::create([
+            Author::create([
                 'user_id' => $user->id,
                 'bio' => $request->bio ?? 'Default bio',
             ]);

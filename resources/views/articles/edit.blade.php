@@ -1,14 +1,14 @@
 <x-app-layout>
   <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-      {{ __('Edit Artikel') }}
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+      {{ __('Edit Artikel:') . ' ' . $article->title }}
     </h2>
   </x-slot>
 
-  <div class="py-12">
+  <div>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-        <div class="p-6 text-gray-900 dark:text-gray-100">
+      <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="p-6 text-gray-900">
           @if (session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
               {{ session('success') }}
@@ -20,7 +20,7 @@
             <div class="mb-4">
               <label for="title" class="block text-sm font-medium">Judul</label>
               <input type="text" name="title" id="title" value="{{ old('title', $article->title) }}"
-                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600"
                 required>
               @error('title')
                 <span class="text-red-600 dark:text-red-400 text-sm">{{ $message }}</span>
@@ -29,7 +29,7 @@
             <div class="mb-4">
               <label for="content" class="block text-sm font-medium">Konten</label>
               <textarea name="content" id="content" rows="6"
-                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>{{ old('content', $article->content) }}</textarea>
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600" required>{{ old('content', $article->content) }}</textarea>
               @error('content')
                 <span class="text-red-600 dark:text-red-400 text-sm">{{ $message }}</span>
               @enderror
@@ -37,7 +37,7 @@
             <div class="mb-4">
               <label for="category_id" class="block text-sm font-medium">Kategori</label>
               <select name="category_id" id="category_id"
-                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600"
                 required>
                 <option value="">Pilih Kategori</option>
                 @foreach ($categories as $category)

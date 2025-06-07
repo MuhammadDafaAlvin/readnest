@@ -13,8 +13,8 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Auth::user()->role->name === 'writer'
-            ? Article::where('author_id', Auth::user()->author->id)->with(['category', 'author.user'])->paginate(9)
-            : Article::with(['category', 'author.user'])->paginate(9);
+            ? Article::where('author_id', Auth::user()->author->id)->with(['category', 'author.user'])->latest()->paginate(9)
+            : Article::with(['category', 'author.user'])->latest()->paginate(9);
 
         return request()->expectsJson()
             ? response()->json($articles)

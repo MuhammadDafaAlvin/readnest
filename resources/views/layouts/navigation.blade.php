@@ -22,13 +22,10 @@
             </x-nav-link>
             @if (auth()->user()->role->name === 'admin')
               <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
-                {{ __('Admin') }}
+                {{ __('Dashboard') }}
               </x-nav-link>
               <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
                 {{ __('Kategori') }}
-              </x-nav-link>
-              <x-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.index')">
-                {{ __('Artikel') }}
               </x-nav-link>
               <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                 {{ __('Pengguna') }}
@@ -96,13 +93,10 @@
         </x-responsive-nav-link>
         @if (auth()->user()->role->name === 'admin')
           <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
-            {{ __('Admin') }}
+            {{ __('Dashboard') }}
           </x-responsive-nav-link>
           <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
             {{ __('Kategori') }}
-          </x-responsive-nav-link>
-          <x-responsive-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.index')">
-            {{ __('Artikel') }}
           </x-responsive-nav-link>
           <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
             {{ __('Pengguna') }}

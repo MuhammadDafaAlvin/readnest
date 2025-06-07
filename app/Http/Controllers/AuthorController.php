@@ -11,6 +11,7 @@ class AuthorController extends Controller
     {
         $articles = Article::where('author_id', Auth::user()->author->id)
             ->with(['category', 'author.user'])
+            ->latest()
             ->paginate(9);
         return view('author.index', compact('articles'));
     }
