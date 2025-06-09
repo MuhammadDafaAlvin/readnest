@@ -1,23 +1,29 @@
 <x-app-layout>
   <div class="container mx-auto px-4 py-4">
     <div class="max-w-6xl mb-10 mx-auto tracking-tighter">
-      @guest
-        <h1 class="max-w-4xl text-5xl font-bold text-gray-900 mb-4">Selamat Datang di Readnest</h1>
-        <p class="max-w-4xl tracking-normal text-xl text-gray-800 dark:text-gray-600 mb-6">
-          Temukan berbagai artikel menarik yang telah ditulis oleh komunitas — mulai dari tips bermanfaat, opini,
-          hingga wawasan terkini seputar berbagai topik.
-          Jelajahi, baca, dan perluas pengetahuan Anda setiap harinya.
-        </p>
-      @endguest
+      @php
+        $isGuest = auth()->guest();
+        $heading = $isGuest ? 'Selamat Datang di Readnest' : 'Selamat Datang, ' . auth()->user()->name . '!';
+        $subtext = 'Temukan berbagai artikel menarik yang telah ditulis oleh komunitas — mulai dari tips bermanfaat, opini,
+                hingga wawasan terkini seputar berbagai topik. Jelajahi, baca, dan perluas pengetahuan Anda setiap harinya.';
+      @endphp
 
-      @auth
-        <h1 class="max-w-4xl text-4xl font-bold text-gray-900 mb-4">Selamat Datang, {{ auth()->user()->name }}!</h1>
-        <p class="max-w-4xl text-lg text-gray-600 dark:text-gray-600 mb-6 tracking-normal">
-          Temukan berbagai artikel menarik yang telah ditulis oleh komunitas — mulai dari tips bermanfaat, opini,
-          hingga wawasan terkini seputar berbagai topik.
-          Jelajahi, baca, dan perluas pengetahuan Anda setiap harinya.
-        </p>
-      @endauth
+      <h1 class="max-w-4xl {{ $isGuest ? 'text-5xl' : 'text-4xl' }} font-bold text-gray-900 mb-4">{{ $heading }}
+      </h1>
+      <p class="max-w-4xl {{ $isGuest ? 'text-xl' : 'text-lg' }} text-gray-800 dark:text-gray-600 mb-6 tracking-normal">
+        {{ $subtext }}
+      </p>
+
+      <form method="GET" action="{{ route('welcome') }}" id="search-form" class="flex justify-start tracking-normal">
+        <input type="text" name="search" id="search-input" value="{{ request()->query('search') }}"
+          placeholder="Cari artikel berdasarkan judul atau konten..."
+          class="w-full max-w-md px-4 py-2 rounded-l-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button type="submit" id="search-button"
+          class="px-4 py-2 bg-blue-600 text-white rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed">
+          Cari
+        </button>
+      </form>
+
     </div>
 
     @if ($articles->isEmpty())
@@ -78,4 +84,22 @@
       </div>
     @endif
   </div>
+  <script>
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
+
+    function toggleSearchButton() {
+      searchButton.disabled = searchInput.value.trim().length === 0;
+    }
+
+    toggleSearchButton();
+    searchInput.addEventListener('input', toggleSearchButton);
+
+    searchForm.addEventListener('submit', function(event) {
+      if (searchInput.value.trim().length === 0) {
+        event.preventDefault();
+      }
+    });
+  </script>
 </x-app-layout>

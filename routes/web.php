@@ -9,12 +9,9 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\SearchController;
 
-Route::get('/', function () {
-    $articles = Article::with(['category', 'author.user'])->latest()->paginate(9);
-    return view('welcome', compact('articles'));
-})->name('welcome');
-
+Route::get('/', [SearchController::class, 'welcome'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -23,10 +20,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        $articles = Article::with(['author', 'category'])->latest()->simplePaginate(9);
-        return view('dashboard', compact('articles'));
-    })->name('dashboard');
+    Route::get('/dashboard', [SearchController::class, 'dashboard'])->name('dashboard');
 
     Route::middleware('role:admin')->group(function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
